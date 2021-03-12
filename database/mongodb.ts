@@ -1,10 +1,9 @@
-import "https://deno.land/x/dotenv@v2.0.0/load.ts";
 import { MongoClient } from "https://deno.land/x/mongo@v0.22.0/mod.ts";
 
 const client = new MongoClient();
-const Host = Deno.env.get('DB_HOST') || "tamba-cluster-shard-00-02.ywonz.mongodb.net";
+const Host = Deno.env.get('DB_HOST') || "127.0.0.1";
 const DbName = Deno.env.get('DB_NAME') || "tanba";
-const UserName = Deno.env.get('DB_USER') || "sidratulmongo";
+const UserName = Deno.env.get('DB_USER') || "tanbamongo";
 const Password = Deno.env.get('DB_PASS') || "";
 
 // const uri = "mongodb+srv://sidratulmongo:7mgTSZK7aa9jpGDt@tamba-cluster.ywonz.mongodb.net/tanba?retryWrites=true&w=majority";
