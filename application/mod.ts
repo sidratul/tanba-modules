@@ -1,4 +1,4 @@
-import { Application } from "https://deno.land/x/abc@v1.3.0/mod.ts";
+import { Application } from "../vendor/abc/mod.ts";
 import { customContext, error } from "./middleware.ts"
 
 export const app = new Application();

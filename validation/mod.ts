@@ -1,5 +1,5 @@
-import * as yup from "https://cdn.skypack.dev/yup@0.32.9"
-import { Context, HandlerFunc } from "https://deno.land/x/abc@v1.3.0/mod.ts";
+import * as yup from "../vendor/yup/mod.ts"
+import { Context, HandlerFunc } from "../vendor/abc/mod.ts";
 import { TanbaContext } from "../context/mod.ts"
 
 yup.setLocale({
@@ -19,6 +19,10 @@ yup.setLocale({
     }
   }
 });
+
+export interface ObjectData {
+  [key: string]: unknown;
+}
 
 export default yup;
 

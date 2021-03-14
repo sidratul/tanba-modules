@@ -1,4 +1,5 @@
-import { MongoClient } from "https://deno.land/x/mongo@v0.22.0/mod.ts";
+import { MongoClient } from "../vendor/mongo/mod.ts";
+export * from "../vendor/mongo/mod.ts"
 
 const client = new MongoClient();
 const Host = Deno.env.get('DB_HOST') || "127.0.0.1";

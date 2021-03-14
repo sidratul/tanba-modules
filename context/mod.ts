@@ -1,33 +1,34 @@
-import { Context, HandlerFunc, MiddlewareFunc} from "https://deno.land/x/abc@v1.3.0/mod.ts";
-import { JwtPayloadInterface } from "../jwt/mod.ts";
+import { Context } from "../vendor/abc/mod.ts";
+import { ObjectData } from "../validation/mod.ts"
+import { UserPayload, generateToken } from "../jwt/mod.ts";
 
 export class TanbaContext extends Context {
-  user: JwtPayloadInterface;
-  data: JSON;
+  user: UserPayload;
+  #data: ObjectData;
 
   constructor(c: Context) {
     super(c);
-    this.user = {} as JwtPayloadInterface;
-    this.data = {} as JSON;
+    this.user = {} as UserPayload;
+    this.#data = {} as ObjectData;
   }
 
-  hallo(){
-    console.log("hallo")
+  setUserPayload(user: UserPayload){
+    this.user = user;
+  }
+
+  getUser(){
+    return this.user;
   }
 
   getUserId() {
     return this.user?._id;
   }
 
-  hasUser() {
-    return typeof this.user?._id !== "undefined";
+  get data(): ObjectData {
+    return this.#data
   }
 
-  getBody() {
-    return this.data
-  }
-
-  setBody(data: JSON) {
-    this.data = data;
+  set data(data: ObjectData){
+    this.#data = data;
   }
 }
