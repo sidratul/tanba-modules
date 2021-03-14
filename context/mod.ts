@@ -1,4 +1,4 @@
-import { Context} from "https://deno.land/x/abc@v1.3.0/mod.ts";
+import { Context, HandlerFunc, MiddlewareFunc} from "https://deno.land/x/abc@v1.3.0/mod.ts";
 import { JwtPayloadInterface } from "../jwt/mod.ts";
 
 export class TanbaContext extends Context {
@@ -9,6 +9,10 @@ export class TanbaContext extends Context {
     super(c);
     this.user = {} as JwtPayloadInterface;
     this.data = {} as JSON;
+  }
+
+  hallo(){
+    console.log("hallo")
   }
 
   getUserId() {
@@ -26,5 +30,4 @@ export class TanbaContext extends Context {
   setBody(data: JSON) {
     this.data = data;
   }
-
 }
