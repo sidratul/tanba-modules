@@ -1,33 +1,29 @@
-import { Context, } from "../vendor/abc/mod.ts";
+import { Context } from "../vendor/abc/mod.ts";
 import { UserPayload } from "../jwt/mod.ts";
 
 export class TanbaContext extends Context {
-  user: UserPayload;
-  data: JSON;
+  #user: UserPayload;
+  #data: any;
 
   constructor(c: Context) {
     super(c);
-    this.user = {} as UserPayload;
-    this.data = {} as JSON;
+    this.#user = {} as UserPayload;
+    this.#data = {} as any;
   }
 
-  setUserPayload(user: UserPayload){
-    this.user = user;
+  set user(user: UserPayload){
+    this.#user = user;
   }
 
-  getUser(){
-    return this.user;
+  get user(){
+    return this.#user;
   }
 
-  getUserId() {
-    return this.user?._id;
+  get data(): any {
+    return this.#data
   }
 
-  getBody() {
-    return this.data
-  }
-
-  setBody(data: JSON) {
-    this.data = data;
+  set data(data: any){
+    this.#data = data;
   }
 }

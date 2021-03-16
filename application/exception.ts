@@ -21,7 +21,7 @@ export class InvalidTokenException extends HttpException {
 }
 
 export const ExceptionHandler: Record<string,any> = {
-  ValidationError: BadRequestException,
+  ZodError: BadRequestException,
   
   /** jwt */
   RangeError: InvalidTokenException, /** expire jwt token */

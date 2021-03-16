@@ -1,8 +1,8 @@
 import { HandlerFunc, Context } from "../vendor/abc/mod.ts";
-import yup, { ObjectData } from "../validation/mod.ts"
-import { TanbaContext } from "../context/mod.ts"
+import { TanbaContext } from "./context.ts"
 import { ErrorHandler } from "./exception.ts"
 import { decodeToken, UserPayload } from "../jwt/mod.ts"
+import { normalizeError } from "../validation/zod.ts"
 
 export function customContext(){
   return (next: HandlerFunc) =>
@@ -12,21 +12,30 @@ export function customContext(){
     }
 }
 
-export function validate(schema: yup.ObjectSchema, withParams = false) {
+export function validate(schema: any, withParams = false) {
   return (next: HandlerFunc) =>
     async (c: Context) => {
+
       let body = await c.body;
-      if( withParams ) {
-        body = {
-          ...body as Record<string,unknown>,
-          ...c.params,
-        }
+
+      // if( withParams ) {
+      //   body = {
+      //     ...body as Record<string,unknown>,
+      //     ...c.params,
+      //   }
+      // }
+
+      let data:any;
+      try{
+        data = await schema.parseAsync(body);
+      }catch(e){
+        throw normalizeError(e);
       }
-      const res = await schema.validate(body);
-      const data = schema.cast(c.body) as ObjectData;
-      const tc: TanbaContext = c.customContext();
+
+      const tc: TanbaContext = c.customContext;
       tc.data = data;
-      return next(tc);
+      return next(c);
+
     }
 }
 
@@ -49,7 +58,7 @@ export function auth(){
       const payload: UserPayload = await decodeToken(token);
       
       const ct: TanbaContext = c.customContext();
-      ct.setUserPayload(payload);
+      ct.user = payload;
 
       return next(c);
     }
