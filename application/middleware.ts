@@ -15,9 +15,7 @@ export function customContext(){
 export function validate(schema: any, withParams = false) {
   return (next: HandlerFunc) =>
     async (c: Context) => {
-
       let body = await c.body;
-
       // if( withParams ) {
       //   body = {
       //     ...body as Record<string,unknown>,
@@ -45,6 +43,7 @@ export function error(){
       try{
         return await next(c);
       } catch(e){
+        console.log("errror",e,e.message);
         return ErrorHandler(e);
       }
     }

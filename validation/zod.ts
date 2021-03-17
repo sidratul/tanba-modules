@@ -6,6 +6,7 @@ export function normalizeError(e: z.ZodError){
   const name = e.errors[0]?.path[0];
   const message = e.errors[0]?.message;
   const error = new Error(`${name} ${message}`);
+  error.name = 'ZodError';
   return error;
 }
 
