@@ -12,17 +12,10 @@ export function customContext(){
     }
 }
 
-export function validate(schema: any, withParams = false) {
+export function validate(schema: any) {
   return (next: HandlerFunc) =>
     async (c: Context) => {
       let body = await c.body;
-      // if( withParams ) {
-      //   body = {
-      //     ...body as Record<string,unknown>,
-      //     ...c.params,
-      //   }
-      // }
-
       let data:any;
       try{
         data = await schema.parseAsync(body);
@@ -43,7 +36,6 @@ export function error(){
       try{
         return await next(c);
       } catch(e){
-        console.log("errror",e,e.message);
         return ErrorHandler(e);
       }
     }

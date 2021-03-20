@@ -1,4 +1,5 @@
 import { create, Payload, verify, getNumericDate } from "https://deno.land/x/djwt@v2.2/mod.ts"
+import { JwtError } from "../application/exception.ts"
 
 export interface UserPayload extends Payload{
   _id?: { $oid: string };
@@ -13,5 +14,10 @@ export async function generateToken(payload: UserPayload | Payload, expire= 3600
 }
 
 export async function decodeToken(token: string) : Promise<UserPayload>{
-  return await verify(token, Secret, "HS512") as UserPayload;
+  try{
+    return await verify(token, Secret, "HS512") as UserPayload;
+  }catch(e){
+    throw new JwtError(e.message);
+  }
+  
 }

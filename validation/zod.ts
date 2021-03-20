@@ -1,13 +1,12 @@
 import * as z from '../vendor/zod/mod.ts';
+import { ValidationError } from '../application/exception.ts';
 
 export default z;
 
 export function normalizeError(e: z.ZodError){
   const name = e.errors[0]?.path[0];
   const message = e.errors[0]?.message;
-  const error = new Error(`${name} ${message}`);
-  error.name = 'ZodError';
-  return error;
+  return new ValidationError(`${name} ${message}`);
 }
 
 // const ErrorMap: z.ZodErrorMap = (error, ctx) => {

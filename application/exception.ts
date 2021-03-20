@@ -8,24 +8,28 @@ import {
 
 import { Status } from "./status.ts"
 
-export class InvalidTokenException extends HttpException {
-  constructor(
-    message?: string | Record<string, any> | any,
-    error = "Invalid Token",
-  ) {
-    super(
-      createHttpExceptionBody(message, error, Status.InvalidToken),
-      Status.InvalidToken,
-    );
+export class AppError extends Error {
+  constructor(name: string, ...params:any[]) {
+    super(...params);
+    this.name = name
+  }
+}
+
+export class JwtError extends AppError{
+  constructor(message: string) {
+    super("JwtError",message);
+  }
+}
+
+export class ValidationError extends AppError{
+  constructor(message: string) {
+    super("ValidationError",message);
   }
 }
 
 export const ExceptionHandler: Record<string,any> = {
-  ZodError: BadRequestException,
-  
-  /** jwt */
-  RangeError: InvalidTokenException, /** expire jwt token */
-  TypeError: UnauthorizedException, /**invalid jwt token */
+  ValidationError: BadRequestException,
+  JwtError: UnauthorizedException, 
 }
 
 export function ErrorHandler(e: Error){
