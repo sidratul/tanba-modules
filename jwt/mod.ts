@@ -14,6 +14,7 @@ export async function generateToken(payload: UserPayload | Payload, expire= 3600
 }
 
 export async function decodeToken(token: string) : Promise<UserPayload>{
+  console.log("token",token);
   try{
     return await verify(token, Secret, "HS512") as UserPayload;
   }catch(e){

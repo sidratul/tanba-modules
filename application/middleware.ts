@@ -47,8 +47,7 @@ export function auth(){
       const autherization = c.request.headers.get('Authorization') || "" as string;
       const [bearer, token] = autherization.split(' ');
       const payload: UserPayload = await decodeToken(token);
-      
-      const ct: TanbaContext = c.customContext();
+      const ct: TanbaContext = c.customContext;
       ct.user = payload;
 
       return next(c);
